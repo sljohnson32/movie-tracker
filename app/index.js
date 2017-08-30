@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers'
 import{ devToolsEnhancer } from 'redux-devtools-extension'
-import CurrentMoviesContainer from './containers/CurrentMoviesContainer'
+import App from './containers/App_Container'
+import { BrowserRouter } from 'react-router-dom'
 
 const store = createStore(rootReducer, devToolsEnhancer())
 
 ReactDOM.render(
   <Provider store={ store }>
-    <CurrentMoviesContainer />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('main')
 )
