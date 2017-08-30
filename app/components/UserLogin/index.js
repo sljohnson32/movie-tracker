@@ -14,15 +14,17 @@ export default class UserLogin extends Component {
   handleSubmit(type) {
     const body = this.getBody(type)
     if (type === 'loginUser') {
-      debugger
+      // debugger
       fetch("/api/users", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       })
       .then(data => data.json())
-      .then(user => this.props.handleLogin(user.data))
-      // .then(data => console.log(data))
+      .then(user => {
+        this.props.handleLogin(user.data)
+        this.props.history.push('/')
+      })
     }
     if (type === 'createUser') {
       fetch("/api/users/new", {
@@ -31,8 +33,10 @@ export default class UserLogin extends Component {
         body: JSON.stringify(body)
       })
       .then(data => data.json())
-      .then(user => this.props.handleLogin(user.data))
-      this.toggleCreateUser()
+      .then(user => {
+        this.props.handleLogin(user.data)
+        this.props.history.push('/')
+      })
     }
   }
 
