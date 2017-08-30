@@ -4,3 +4,10 @@ export const setCurrentMovies = (movies) => {
     movies
   }
 }
+
+export const loginUser = (user) => {
+  return {
+    type: 'LOGIN_USER',
+    user
+  }
+}

@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 
 export default class UserLogin extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       createUser: false,
       name: '',
@@ -11,8 +11,45 @@ export default class UserLogin extends Component {
     }
   }
 
-  handleSubmit() {
-    console.log("Submitted!")
+  handleSubmit(type) {
+    const body = this.getBody(type)
+    if (type === 'loginUser') {
+      debugger
+      fetch("/api/users", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      })
+      .then(data => data.json())
+      .then(user => this.props.handleLogin(user.data))
+      // .then(data => console.log(data))
+    }
+    if (type === 'createUser') {
+      fetch("/api/users/new", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      })
+      .then(data => data.json())
+      .then(user => this.props.handleLogin(user.data))
+      this.toggleCreateUser()
+    }
+  }
+
+  getBody(type) {
+    if (type === 'loginUser') {
+      return {
+        email: this.state.email,
+        password: this.state.password
+      };
+    }
+    if (type === 'createUser') {
+      return {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      }
+    }
   }
 
   toggleCreateUser() {
@@ -24,7 +61,7 @@ export default class UserLogin extends Component {
       <div className='login-user'>
         <form onSubmit={(e) => {
           e.preventDefault()
-          this.handleSubmit(loginUser)
+          this.handleSubmit('loginUser')
         }}>
           <label>
             Email
@@ -55,7 +92,7 @@ export default class UserLogin extends Component {
       <div className='create-user'>
         <form onSubmit={(e) => {
           e.preventDefault()
-          this.handleSubmit(createUser)
+          this.handleSubmit('createUser')
         }}>
           <label>
             Name

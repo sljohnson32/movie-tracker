@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import { Route, NavLink, Link } from 'react-router-dom'
 
 import Header from '../Header'
-import UserLogin from '../UserLogin'
-import MovieList from '../../containers/MovieList_container'
+import UserLogin from '../../containers/Login_Container'
+import MovieList from '../../containers/MovieList_Container'
 
 export default class App extends Component {
   constructor(props) {
