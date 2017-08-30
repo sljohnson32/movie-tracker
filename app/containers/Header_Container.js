@@ -10,8 +10,8 @@ const mapStateToProps = (reducer) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    handleLogout: (user) => {
-      dispatch(logoutUser(user))
+    handleLogout: () => {
+      dispatch(logoutUser())
     }
   }
 }
