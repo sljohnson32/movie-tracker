@@ -2,18 +2,15 @@ import React from 'react'
 
 const MovieCards = (props) => {
 
-  const displayMovies = props.currentMovies.map((movie, i) => {
-    console.log(movie);
-    return (
-      <div className='movie-card' key={i}>
-        <h3>{movie.title}</h3>
-      </div>
-    )
-  })
+
+  // console.log(props);
+  const { title, id, poster_path } = props
 
   return (
-    <div className='movie-list'>
-      {displayMovies}
+    <div className='movie-card'>
+      <img src={`https://image.tmdb.org/t/p/w150/${poster_path}`} />
+      <h3>{title}</h3>
+
     </div>
   )
 }

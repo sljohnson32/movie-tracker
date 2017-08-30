@@ -1,6 +1,6 @@
 import { connect } from 'react-redux'
 // import { setCurrentMovies } from '../actions'
-import MovieCards from '../components/MovieCards'
+import MovieList from '../components/MovieList'
 
 const mapStateToProps = (reducer) => {
   return {
@@ -16,4 +16,4 @@ const mapStateToProps = (reducer) => {
 //   }
 // }
 
-export default connect(mapStateToProps, null)(MovieCards)
+export default connect(mapStateToProps, null)(MovieList)

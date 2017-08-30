@@ -6,12 +6,15 @@ import { createStore } from 'redux'
 import rootReducer from './reducers'
 import{ devToolsEnhancer } from 'redux-devtools-extension'
 import App from './containers/App_Container'
+import { BrowserRouter } from 'react-router-dom'
 
 const store = createStore(rootReducer, devToolsEnhancer())
 
 ReactDOM.render(
   <Provider store={ store }>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </Provider>,
   document.getElementById('main')
 )
