@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Header from '../Header'
 
 export default class App extends Component {
   constructor(props) {
@@ -12,9 +13,10 @@ export default class App extends Component {
   }
 
   render() {
+    console.log(this.props.currentMovies)
     return (
       <div className='App-Container'>
-        <h1>Movie Watcher</h1>
+        <Header />
       </div>
     )
   }
