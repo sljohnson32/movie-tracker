@@ -2,12 +2,6 @@ import { connect } from 'react-redux'
 import { setCurrentMovies } from '../actions'
 import App from '../components/App'
 
-const mapStateToProps = (reducer) => {
-  return {
-    currentMovies: reducer.currentMovies
-  }
-}
-
 const mapDispatchToProps = (dispatch) => {
   return {
     loadCurrentMovies: (movies) => {
@@ -16,4 +10,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(null, mapDispatchToProps)(App)

@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Header from '../Header'
+import MovieList from '../MovieList'
 
 export default class App extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ export default class App extends Component {
     return (
       <div className='App-Container'>
         <Header />
+        <MovieList />
       </div>
     )
   }

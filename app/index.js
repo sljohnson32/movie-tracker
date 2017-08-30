@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import rootReducer from './reducers'
 import{ devToolsEnhancer } from 'redux-devtools-extension'
-import App from './containers/AppContainer'
+import App from './containers/App_Container'
 
 const store = createStore(rootReducer, devToolsEnhancer())
 
