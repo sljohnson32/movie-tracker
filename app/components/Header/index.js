@@ -5,7 +5,7 @@ const Header = (props) => {
 
   const logoutButton = <button onClick={ () => props.handleLogout() }>Logout</button>
   const loginButton = <NavLink to='/login'>Login</NavLink>
-
+  
   return (
     <div className='header'>
       <h1>Movie Tracker</h1>
@@ -15,7 +15,7 @@ const Header = (props) => {
             <h4>Welcome, {props.user.name}!</h4>
             {logoutButton}
           </div>
-          : loginButton }
+          : location.pathname == "/login" ? null : loginButton }
       </div>
     </div>
   )

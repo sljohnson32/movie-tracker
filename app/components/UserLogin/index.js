@@ -7,15 +7,16 @@ export default class UserLogin extends Component {
       createUser: false,
       name: '',
       email: '',
-      password: ''
+      password: '',
+      errorMsg: ''
     }
   }
 
   handleSubmit(type) {
+    this.setState({ errorMsg: '' })
     const body = this.getBody(type)
     if (type === 'loginUser') {
-      // debugger
-      fetch("/api/users", {
+      fetch("/api/users/", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
@@ -24,18 +25,38 @@ export default class UserLogin extends Component {
       .then(user => {
         this.props.handleLogin(user.data)
         this.props.history.push('/')
+      })
+      .catch(err => {
+        this.setState({ errorMsg: "The email and password you entered do not match"})
       })
     }
     if (type === 'createUser') {
-      fetch("/api/users/new", {
+      fetch("/api/users/new/", {
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       })
+      .then(resp => {
+        if (resp.status === 500) {
+          throw Error()
+        }
+        return resp
+      })
       .then(data => data.json())
+      .then(data => {
+        return {
+          id: data.id,
+          name: this.state.name,
+          email: this.state.email,
+          password: this.state.password
+        }
+      })
       .then(user => {
-        this.props.handleLogin(user.data)
+        this.props.handleLogin(user)
         this.props.history.push('/')
+      })
+      .catch(err => {
+        this.setState({ errorMsg: "The email you entered has already been used"})
       })
     }
   }
@@ -57,7 +78,7 @@ export default class UserLogin extends Component {
   }
 
   toggleCreateUser() {
-    this.setState({ createUser: !this.state.createUser })
+    this.setState({ createUser: !this.state.createUser, errorMsg: '' })
   }
 
   loginDisplay() {
@@ -131,6 +152,7 @@ export default class UserLogin extends Component {
   render() {
     return (
       <div className='login-container'>
+        <p>{this.state.errorMsg}</p>
         { this.state.createUser ? this.createUserDisplay() : this.loginDisplay() }
       </div>
     )
