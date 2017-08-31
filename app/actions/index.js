@@ -17,3 +17,10 @@ export const logoutUser = () => {
     type: 'LOGOUT_USER'
   }
 }
+
+export const setFavorites = (favs) => {
+  return {
+    type: 'SET_FAVS',
+    favs
+  }
+}

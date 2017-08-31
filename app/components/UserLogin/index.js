@@ -15,6 +15,7 @@ export default class UserLogin extends Component {
   handleSubmit(type) {
     this.setState({ errorMsg: '' })
     const body = this.getBody(type)
+
     if (type === 'loginUser') {
       fetch("/api/users/", {
         method: "POST",
@@ -24,12 +25,14 @@ export default class UserLogin extends Component {
       .then(data => data.json())
       .then(user => {
         this.props.handleLogin(user.data)
+        this.getFavs(user.data.id)
         this.props.history.push('/')
       })
       .catch(err => {
         this.setState({ errorMsg: "The email and password you entered do not match"})
       })
     }
+
     if (type === 'createUser') {
       fetch("/api/users/new/", {
         method: "POST",
@@ -53,12 +56,19 @@ export default class UserLogin extends Component {
       })
       .then(user => {
         this.props.handleLogin(user)
+        this.getFavs(user.id)
         this.props.history.push('/')
       })
       .catch(err => {
         this.setState({ errorMsg: "The email you entered has already been used"})
       })
     }
+  }
+
+  getFavs(id) {
+    fetch(`/api/users/${id}/favorites`)
+    .then(data => data.json())
+    .then(favs => this.props.setFavs(favs.data))
   }
 
   getBody(type) {

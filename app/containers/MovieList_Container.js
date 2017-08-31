@@ -4,7 +4,8 @@ import MovieList from '../components/MovieList'
 
 const mapStateToProps = (reducer) => {
   return {
-    currentMovies: reducer.currentMovies
+    currentMovies: reducer.currentMovies,
+    favMovies: reducer.favs
   }
 }
 

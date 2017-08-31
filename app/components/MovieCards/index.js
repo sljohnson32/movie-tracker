@@ -1,18 +1,31 @@
-import React from 'react'
+import React, { Component } from 'react'
+import FavBtn from '../FavBtn'
 
-const MovieCards = (props) => {
+export default class MovieCards extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      favorite: false
+    }
+  }
 
+  componentWillMount() {
+    this.checkFavs()
+  }
 
-  // console.log(props);
-  const { title, id, poster_path } = props
+  checkFavs() {
+    // console.log(this.props)
+  }
 
-  return (
-    <div className='movie-card'>
-      <img src={`https://image.tmdb.org/t/p/w150/${poster_path}`} />
-      <h3>{title}</h3>
+  render() {
+    const { title, id, poster_path } = this.props
 
-    </div>
-  )
+    return (
+      <div className='movie-card'>
+        <h3>{title}</h3>
+        <img src={`https://image.tmdb.org/t/p/w150/${poster_path}`} />
+        <FavBtn selected={ this.state.favorite } />
+      </div>
+    )
+  }
 }
-
-export default MovieCards
