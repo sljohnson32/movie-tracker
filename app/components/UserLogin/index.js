@@ -7,11 +7,13 @@ export default class UserLogin extends Component {
       createUser: false,
       name: '',
       email: '',
-      password: ''
+      password: '',
+      errorMsg: ''
     }
   }
 
   handleSubmit(type) {
+    this.setState({ errorMsg: '' })
     const body = this.getBody(type)
     if (type === 'loginUser') {
       fetch("/api/users/", {
@@ -25,7 +27,7 @@ export default class UserLogin extends Component {
         this.props.history.push('/')
       })
       .catch(err => {
-        console.log("Login Error ", err);
+        this.setState({ errorMsg: "The email and password you entered do not match"})
       })
     }
     if (type === 'createUser') {
@@ -36,7 +38,7 @@ export default class UserLogin extends Component {
       })
       .then(resp => {
         if (resp.status === 500) {
-          throw Error(resp.statusText)
+          throw Error()
         }
         return resp
       })
@@ -53,8 +55,9 @@ export default class UserLogin extends Component {
         this.props.handleLogin(user)
         this.props.history.push('/')
       })
-      .catch(err =>
-        console.log("Create Error ", err));
+      .catch(err => {
+        this.setState({ errorMsg: "The email you entered has already been used"})
+      })
     }
   }
 
@@ -75,7 +78,7 @@ export default class UserLogin extends Component {
   }
 
   toggleCreateUser() {
-    this.setState({ createUser: !this.state.createUser })
+    this.setState({ createUser: !this.state.createUser, errorMsg: '' })
   }
 
   loginDisplay() {
@@ -149,6 +152,7 @@ export default class UserLogin extends Component {
   render() {
     return (
       <div className='login-container'>
+        <p>{this.state.errorMsg}</p>
         { this.state.createUser ? this.createUserDisplay() : this.loginDisplay() }
       </div>
     )
