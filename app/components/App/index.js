@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
-import { Route, NavLink, Link } from 'react-router-dom'
 
-import Header from '../Header'
-import UserLogin from '../UserLogin'
-import MovieList from '../../containers/MovieList_container'
+import Header from '../../containers/Header_Container'
 
 export default class App extends Component {
   constructor(props) {
@@ -21,10 +18,6 @@ export default class App extends Component {
     return (
       <div className='App-Container'>
         <Header />
-
-        <Route exact path='/' component={ MovieList } />
-        <Route exact path='/login' component={ UserLogin } />
-
       </div>
 
     )

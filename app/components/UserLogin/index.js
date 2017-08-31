@@ -1,34 +1,77 @@
 import React, { Component } from 'react'
 
 export default class UserLogin extends Component {
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
     this.state = {
       createUser: false,
-      username: '',
+      name: '',
+      email: '',
       password: ''
     }
   }
 
-  handleSubmit() {
-    console.log("Submitted!")
+  handleSubmit(type) {
+    const body = this.getBody(type)
+    if (type === 'loginUser') {
+      // debugger
+      fetch("/api/users", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      })
+      .then(data => data.json())
+      .then(user => {
+        this.props.handleLogin(user.data)
+        this.props.history.push('/')
+      })
+    }
+    if (type === 'createUser') {
+      fetch("/api/users/new", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(body)
+      })
+      .then(data => data.json())
+      .then(user => {
+        this.props.handleLogin(user.data)
+        this.props.history.push('/')
+      })
+    }
   }
 
-  // const displayMovies = props.currentMovies.map(movie =>
-  //   <MovieCards { ...movie } key={ movie.id } />
-  // )
-  render() {
+  getBody(type) {
+    if (type === 'loginUser') {
+      return {
+        email: this.state.email,
+        password: this.state.password
+      };
+    }
+    if (type === 'createUser') {
+      return {
+        name: this.state.name,
+        email: this.state.email,
+        password: this.state.password
+      }
+    }
+  }
+
+  toggleCreateUser() {
+    this.setState({ createUser: !this.state.createUser })
+  }
+
+  loginDisplay() {
     return (
-      <div className='user-login'>
+      <div className='login-user'>
         <form onSubmit={(e) => {
           e.preventDefault()
-          this.handleSubmit()
+          this.handleSubmit('loginUser')
         }}>
           <label>
             Email
-            <input value={this.state.username}
+            <input value={this.state.email}
                   placeholder='Enter your email...'
-                  onChange={ (e) => this.setState({ username: e.target.value })}
+                  onChange={ (e) => this.setState({ email: e.target.value })}
             />
           </label>
           <label>
@@ -38,9 +81,57 @@ export default class UserLogin extends Component {
                    onChange={ (e) => this.setState({ password: e.target.value })}
             />
           </label>
-          <input type="submit" disabled={!(this.state.username && this.state.password)}/>
+          <input type="submit"
+                 value="Login"
+                 disabled={!(this.state.email && this.state.password)}
+          />
         </form>
-        <button>Create User Account</button>
+        <button onClick={ () => this.toggleCreateUser() }>Create User Account</button>
+      </div>
+    )
+  }
+
+  createUserDisplay() {
+    return (
+      <div className='create-user'>
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          this.handleSubmit('createUser')
+        }}>
+          <label>
+            Name
+            <input value={this.state.name}
+                  placeholder='Enter your name...'
+                  onChange={ (e) => this.setState({ name: e.target.value })}
+            />
+          </label>
+          <label>
+            Email
+            <input value={this.state.email}
+                   placeholder='Enter your email...'
+                   onChange={ (e) => this.setState({ email: e.target.value })}
+            />
+          </label>
+          <label>
+            Password
+            <input value={this.state.password}
+                   placeholder='Enter your password...'
+                   onChange={ (e) => this.setState({ password: e.target.value })}
+            />
+          </label>
+          <input type="submit"
+                 value="Create Account"
+                 disabled={!(this.state.name && this.state.email && this.state.password)}
+          />
+        </form>
+      </div>
+    )
+  }
+
+  render() {
+    return (
+      <div className='login-container'>
+        { this.state.createUser ? this.createUserDisplay() : this.loginDisplay() }
       </div>
     )
   }
