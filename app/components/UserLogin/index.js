@@ -24,6 +24,9 @@ export default class UserLogin extends Component {
         this.props.handleLogin(user.data)
         this.props.history.push('/')
       })
+      .catch(err => {
+        console.log("Login Error ", err);
+      })
     }
     if (type === 'createUser') {
       fetch("/api/users/new/", {
@@ -31,8 +34,13 @@ export default class UserLogin extends Component {
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(body)
       })
+      .then(resp => {
+        if (resp.status === 500) {
+          throw Error(resp.statusText)
+        }
+        return resp
+      })
       .then(data => data.json())
-      // .then(data => console.log(data.id))
       .then(data => {
         return {
           id: data.id,
@@ -45,6 +53,8 @@ export default class UserLogin extends Component {
         this.props.handleLogin(user)
         this.props.history.push('/')
       })
+      .catch(err =>
+        console.log("Create Error ", err));
     }
   }
 
