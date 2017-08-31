@@ -14,7 +14,6 @@ export default class App extends Component {
   }
 
   render() {
-    console.log(this.props.currentMovies)
     return (
       <div className='App-Container'>
         <Header />

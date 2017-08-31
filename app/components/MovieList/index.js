@@ -1,5 +1,5 @@
 import React from 'react'
-import MovieCards from '../MovieCards'
+import MovieCards from '../../containers/MovieCards_Container'
 
 const MovieList = (props) => {
 

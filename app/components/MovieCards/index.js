@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import FavBtn from '../FavBtn'
+import FavBtn from '../../containers/FavBtn_Container'
 
 export default class MovieCards extends Component {
   constructor(props) {
@@ -7,14 +7,26 @@ export default class MovieCards extends Component {
     this.state = {
       favorite: false
     }
+    this.flipFavState = this.flipFavState.bind(this)
   }
 
-  componentWillMount() {
-    this.checkFavs()
+  componentWillReceiveProps(nextProps) {
+    if (this.props.favs !== nextProps.favs) {
+      this.checkFavs(nextProps.favs)
+    }
   }
 
-  checkFavs() {
-    // console.log(this.props)
+  checkFavs(nextProps) {
+    let isFav = nextProps.find(movie => {
+      return movie.movie_id == this.props.id
+    })
+    if (isFav !== undefined) {
+      this.flipFavState()
+    }
+  }
+
+  flipFavState() {
+    this.setState({ favorite: !this.state.favorite})
   }
 
   render() {
@@ -24,7 +36,10 @@ export default class MovieCards extends Component {
       <div className='movie-card'>
         <h3>{title}</h3>
         <img src={`https://image.tmdb.org/t/p/w150/${poster_path}`} />
-        <FavBtn selected={ this.state.favorite } />
+        <FavBtn flipFavState={this.flipFavState}
+                selected={ this.state.favorite }
+                movie={ this.props }
+        />
       </div>
     )
   }
